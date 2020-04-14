@@ -1,0 +1,19 @@
+## set the paths for a default setup
+
+all: beam
+	erl -pa ../deps/cowboy/ebin\
+            -pa ../deps/ranch/ebin\
+            -pa ../deps/cowlib/ebin\
+            -pa ../ebin\
+	    -pa ./ebin\
+	    -pa */ebin\
+            -s ezwebframe_demos start
+
+beam:
+	cp stug/src/*.app stug/ebin;
+	erlc -o websocket/ebin websocket/src/*.erl;
+	cp websocket/src/*.app websocket/ebin;
+	erlc -o websocket/ebin websocket/src/*.erl
+
+clean:
+	rm -rf *~ *.beam *.tmp

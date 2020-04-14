@@ -1,0 +1,72 @@
+%%% -------------------------------------------------------------------
+%%% Author  : joq erlang
+%%% Created : 
+%%% Description :  
+%%% websocket handler 
+%%% Implemements Interface for StugKontroller
+%%% Design principles
+%%% > Only one @ the time
+%%% > Timeout after inactive one min 
+%%% > All state information are externalized
+%%% 
+%%% -------------------------------------------------------------------
+-module(web_start). 
+%% --------------------------------------------------------------------
+%% Include files
+%% --------------------------------------------------------------------
+%-include("common_macros.hrl").
+
+%% --------------------------------------------------------------------
+
+
+-export([start/0]).
+
+
+%% ====================================================================
+%% External functions
+%% ====================================================================
+%% --------------------------------------------------------------------
+%% Function:init 
+%% Description:
+%% Returns: non
+%% --------------------------------------------------------------------
+start(Dispatch, Port) ->
+    io:format("Starting:~p~n",[file:get_cwd()]),
+    ok = application:start(crypto),
+    ok = application:start(ranch), 
+    ok = application:start(cowlib), 
+    ok = application:start(cowboy),
+    ok.
+  % ok = web_server_start(Port, Dispatch).
+
+web_server_start(Port, Dispatcher) ->
+    E0 = #env{dispatch=Dispatcher},
+    Dispatch = cowboy_router:compile([{'_',[{'_', ?MODULE, E0}]}]),  
+    %% server is the name of this module
+    NumberOfAcceptors = 100,
+    Status = 
+	cowboy:start_http(ezwebframe,
+			  NumberOfAcceptors,
+			  [{port, Port}],
+			  [{env, [{dispatch, Dispatch}]}]),
+    case Status of
+	{error, _} ->
+	    io:format("websockets could not be started -- "
+		      "port ~p probably in use~n", [Port]),
+	    init:stop();
+	{ok, _Pid} ->
+	    io:format("websockets started on port:~p~n",[Port])
+    end.
+
+%% --------------------------------------------------------------------
+%% Function:init 
+%% Description:
+%% Returns: non
+%% --------------------------------------------------------------------
+
+
+%% --------------------------------------------------------------------
+%% Function:init 
+%% Description:
+%% Returns: non
+%% --------------------------------------------------------------------

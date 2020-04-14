@@ -1,0 +1,6 @@
+
+all:
+	rm -rf src/lib_* src/container.erl src/pod.erl src/tcp_* src/mis_*;
+	cp /home/pi/erlang/basic/lib_service/src/*.erl src;
+	cp /home/pi/erlang/basic/lib_service/src/*.app ebin;
+	cp /home/pi/erlang/basic/include/* src;

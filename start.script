@@ -1,0 +1,7 @@
+#!/bin/bash
+rm -rf basic
+rm -rf src/lib_* src/container.erl src/pod.erl src/tcp_* src/mis_*
+git clone https://github.com/joq62/basic.git
+cp basic/lib_service/src/*.erl src
+cp basic/lib_service/src/*.app ebin
+cp basic/include/* .

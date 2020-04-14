@@ -1,0 +1,12 @@
+{release,{"websocket_example","1"},
+         {erts,"10.4.2"},
+         [{kernel,"6.4"},
+          {stdlib,"3.9.2"},
+          {crypto,"4.5.1"},
+          {cowlib,"2.9.1"},
+          {asn1,"5.0.9"},
+          {public_key,"1.6.7"},
+          {ssl,"9.3.2"},
+          {ranch,"1.7.1"},
+          {cowboy,"2.7.0"},
+          {websocket,"1"}]}. 

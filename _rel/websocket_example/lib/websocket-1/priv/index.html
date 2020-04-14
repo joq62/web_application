@@ -1,0 +1,181 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/tellstick.css" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Websocket client</title>
+    <script src="/static/jquery.min.js"></script>
+    <script type="text/javascript">
+
+      var websocket;
+      $(document).ready(init);
+
+      function init() {
+          $('#server').val("ws://" + window.location.host + "/websocket");
+          if(!("WebSocket" in window)){
+              $('#status').append('<p><span style="color: red;">websockets are not supported </span></p>');
+              $("#navigation").hide();
+          } else {
+              $('#status').append('<p><span style="color: green;">websockets are supported </span></p>');
+              connect();
+          };
+              $("#connected").hide();
+              $("#content").hide();
+      };
+
+      function connect()
+      {
+          wsHost = $("#server").val()
+          websocket = new WebSocket(wsHost);
+          showScreen('<b>Connecting to: ' +  wsHost + '</b>');
+          websocket.onopen = function(evt) { onOpen(evt) };
+          websocket.onclose = function(evt) { onClose(evt) };
+          websocket.onmessage = function(evt) { onMessage(evt) };
+          websocket.onerror = function(evt) { onError(evt) };
+              websocket.send("init");
+      };
+
+      function disconnect() {
+          websocket.close();
+      };
+
+      function toggle_connection(){
+          if(websocket.readyState == websocket.OPEN){
+              disconnect();
+          } else {
+              connect();
+          };
+      };
+
+      function sendTxt() {
+          if(websocket.readyState == websocket.OPEN){
+              txt = $("#send_txt").val();
+              websocket.send(txt);
+              showScreen('sending: ' + txt);
+          } else {
+               showScreen('websocket is not connected');
+          };
+      };
+
+      function onOpen(evt) {
+          showScreen('<span style="color: green;">CONNECTED </span>');
+          $("#connected").fadeIn('slow');
+          $("#content").fadeIn('slow');
+      };
+
+      function onClose(evt) {
+          showScreen('<span style="color: red;">DISCONNECTED </span>');
+      };
+
+      function onMessage(evt) {
+      var str =evt.data;
+      var arr = str.split(",");
+
+        console.log(str);
+        console.log(arr[0]);
+        switch(arr[0]) {
+          case "set":
+            console.log(arr[1],arr[2]);
+            set_status(arr[1],arr[2]);
+            break;
+            case "init":
+              set_status(arr[1],arr[2]);
+              set_status(arr[3],arr[4]);
+              document.getElementById("txt_innetemp").innerHTML =arr[6];
+              document.getElementById("txt_utetemp").innerHTML =arr[8];
+              document.getElementById("text_box_1").innerHTML =arr[9];
+            break;
+          default:
+              console.log("un_matched",arr[0]);
+            // code block
+          }
+            showScreen('<span style="color: blue;">RESPONSE: ' + evt.data+ '</span>');
+          };
+      function onError(evt) {
+          showScreen('<span style="color: red;">ERROR: ' + evt.data+ '</span>');
+      };
+
+      function showScreen(txt) {
+          $('#output').prepend('<p>' + txt + '</p>');
+      };
+
+      function clearScreen()
+      {
+          $('#output').html("");
+      };
+
+      function element_fkn()
+      {
+         websocket.send("element_clicked");
+      };
+
+      function lampor_fkn()
+      {
+         websocket.send("lampor_clicked");
+      };
+
+      function avsluta_fkn()
+      {
+        document.getElementById("text_box_1").innerHTML =" ";
+        document.getElementById("text_box_2").innerHTML ="Goodbye";
+         websocket.send("avsluta_clicked");
+         websocket.close();
+      };
+
+      function set_status(Id,Status){
+        console.log(Id,Status);
+        switch(Id) {
+            case "element":
+              if(Status=="on"){
+                    document.getElementById("txt_element_blue").innerHTML = " ";
+                    document.getElementById("txt_element_red").innerHTML = "ON";
+                  }
+              else {
+                document.getElementById("txt_element_red").innerHTML = " ";
+                document.getElementById("txt_element_blue").innerHTML = "OFF";
+              }
+              break;
+            case "lampor":
+              if(Status=="on"){
+                    document.getElementById("txt_lampor_blue").innerHTML = " ";
+                    document.getElementById("txt_lampor_red").innerHTML = "ON";
+              }
+              else {
+                document.getElementById("txt_lampor_red").innerHTML = " ";
+                document.getElementById("txt_lampor_blue").innerHTML = "OFF";
+              }
+              break;
+            default:
+              console.log(Id);
+            };
+      };
+
+    </script>
+  </head>
+
+  <body>
+
+  <div id="header">
+    <h1>StugKontroller</h1>
+  </div>
+
+  <div id="innetemp">Innetemperatur  </div>
+  <div id="txt_innetemp"></div>
+  <div id="utetemp">Utetemperatur</div>
+  <div id="txt_utetemp"></div>
+
+
+  <div id="text_box_1"></div>
+  <div id="text_box_2"></div>
+  <button id="logout" onclick ="avsluta_fkn()">Avsluta</button>
+
+  <button id="element" onclick ="element_fkn()">element</button>
+  <div id="txt_element_blue"></div>
+  <div id="txt_element_red"></div>
+  <button id="lampor">lampor</button>
+
+  <button id="lampor" onclick ="lampor_fkn()">lampor</button>
+  <div id="txt_lampor_blue"></div>
+  <div id="txt_lampor_red"></div>
+  <div  id="server" ></div>
+  </body>
+</html>

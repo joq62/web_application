@@ -1,0 +1,70 @@
+body {margin-left:1em;
+      border-radius:10px;
+      padding:1em;
+      width:500px;
+      height:300px;
+      border: 2px solid black;
+      box-shadow:black 0.2em 0.2em 0.2em;
+     }
+
+#txt_session{
+    position:fixed;top:3em;left:18em;font-size:1.5em; color:black
+}
+#session_text { 
+    width:10em;
+    position:fixed;top: 5em;left:20em;
+    box-shadow:black 0.1em 0.1em 0.1em;
+    border-radius: 5px;
+}
+
+#text_box_1{
+    position:fixed;top:1em;left:12em;font-size:1.5em; color:green
+}
+#text_box_2{
+    position:fixed;top:1em;left:12em;font-size:1.5em; color:red
+}
+
+#logout{
+    position:fixed;top:10em;left:21em;
+    font-size:0.8em; color:white;font-weight: bold;
+    background-color:red; padding:3px;width:10em;hight:4em;box-shadow:black 0.1em 0.1em 0.1em;border-radius: 5px; margin:0.3em 0;
+}
+
+#innetemp{
+    position:fixed;top:10em;left:1.4em;font-size:1.2em; color:black
+}    
+
+#txt_innetemp{
+    position:fixed;top:10em;left:10em;font-size:1.2em; color:black
+}
+#utetemp{
+    position:fixed;top:12em;left:1.4em;font-size:1.2em; color:black
+}    
+
+#txt_utetemp{
+    position:fixed;top:12em;left:10em;font-size:1.2em; color:black
+}
+#element{
+    position:fixed;top:5em;left:2em;
+    font-size:0.8em; color:white;font-weight: bold;
+    background-color:blue; padding:3px;width:10em;hight:4em;box-shadow:black 0.1em 0.1em 0.1em;border-radius: 5px; margin:0.3em 0;
+}
+
+#txt_element_blue{
+    position:fixed;top:4.5em;left:11em;font-size:1em; color:blue
+}
+#txt_element_red{
+    position:fixed;top:4.5em;left:11em;font-size:1em; color:red;font-weight: bold
+}
+
+#lampor{
+    position:fixed;top:9em;left:2em;
+    font-size:0.8em; color:black;font-weight:bold;
+    background-color:yellow;padding:3px;width:10em;hight:6em;box-shadow:black 0.1em 0.1em 0.1em;border-radius: 5px; margin:0.3em 0;
+}
+#txt_lampor_blue{
+    position:fixed;top:7.9em;left:11em;font-size:1em; color:blue
+}
+#txt_lampor_red{
+    position:fixed;top:7.9em;left:11em;font-size:1em; color:red;font-weight: bold
+}
